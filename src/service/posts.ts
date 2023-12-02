@@ -17,7 +17,7 @@ export type PostData = Post & {
   next: Post | null;
   prev: Post | null;
 };
-// & : type intersection
+// & : Intersection Types(교차 타입)
 
 export async function getFeaturedPosts(): Promise<Post[]> {
   return getAllPosts() //
