@@ -8,8 +8,8 @@ export default async function FeaturedPosts() {
   // 2. featured 포스트 데이터 보여주기
 
   return (
-    <section>
-      <h2 className="text-2xl font-bold my-2">Featured Posts</h2>
+    <section className="my-4">
+      <h2 className="my-2 text-2xl font-bold">Featured Posts</h2>
       <PostsGrid posts={posts} />
     </section>
   );
