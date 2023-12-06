@@ -2,6 +2,7 @@
 
 import { readFile } from "fs/promises";
 import path from "path";
+import { cache } from "react";
 
 export type Post = {
   title: string;
@@ -19,17 +20,10 @@ export type PostData = Post & {
 };
 // & : Intersection Types(교차 타입)
 
-export async function getFeaturedPosts(): Promise<Post[]> {
-  return getAllPosts() //
-    .then((posts) => posts.filter((post) => post.featured));
-}
-
-export async function getNonFeaturedPosts(): Promise<Post[]> {
-  return getAllPosts() //
-    .then((posts) => posts.filter((post) => !post.featured));
-}
-
-export async function getAllPosts(): Promise<Post[]> {
+export const getAllPosts = cache(async () => {
+  // cache() : 인자를 캐시해서 호출
+  // 한 페이지 렌더링 사이클에 한해 이미 한번 읽어온 인자가 중복 호출이 되면 캐시한 내용을 반환
+  console.log("getAllPosts");
   const filePath = path.join(process.cwd(), "data", "posts.json");
   return (
     readFile(filePath, "utf-8")
@@ -39,6 +33,20 @@ export async function getAllPosts(): Promise<Post[]> {
       //JSON.parse되는 데이터의 타입을 정의
       .then((posts) => posts.sort((a, b) => (a.date > b.date ? -1 : 1)))
   );
+});
+
+// ? cache() 사용 시 타입 지정은 왜 안 해도 되는지?
+// export async function getAllPosts(): Promise<Post[]> {
+// }
+
+export async function getFeaturedPosts(): Promise<Post[]> {
+  return getAllPosts() //
+    .then((posts) => posts.filter((post) => post.featured));
+}
+
+export async function getNonFeaturedPosts(): Promise<Post[]> {
+  return getAllPosts() //
+    .then((posts) => posts.filter((post) => !post.featured));
 }
 
 export async function getPostData(fileName: string): Promise<PostData> {
