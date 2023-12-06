@@ -37,6 +37,6 @@ export default function FilterablePosts({ posts, categories }: Props) {
 * 1. searchParams 활용
     - url에 정보가 포함되서 브라우저 히스토리 관리가 가능 (뒤로가기도 가능)
     - url 파싱을 위해 추가 코드 작성이 필요
-* 2.  조건부 렌더링 사용
+* 2. 조건부 렌더링 사용
     - 간단한 구현, 복잡성 감소
 */
