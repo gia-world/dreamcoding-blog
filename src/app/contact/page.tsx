@@ -1,5 +1,10 @@
 import ContactForm from "@/components/ContactForm";
 import { FaBlog, FaGithub, FaYoutube } from "react-icons/fa6";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact",
+};
 
 const LINKS = [
   { icon: <FaGithub />, url: "" },

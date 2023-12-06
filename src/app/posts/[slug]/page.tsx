@@ -1,15 +1,24 @@
-import { getPostData } from "@/service/posts";
-import React from "react";
-import Image from "next/image";
-import PostContent from "@/components/PostContent";
-import { Preahvihear } from "next/font/google";
 import AdjacentPostCard from "@/components/AdjacentPostCard";
+import PostContent from "@/components/PostContent";
+import { getPostData } from "@/service/posts";
+import { Metadata } from "next";
+import Image from "next/image";
 
 type Props = {
   params: {
     slug: string;
   };
 };
+
+export async function generateMetadata({
+  params: { slug },
+}: Props): Promise<Metadata> {
+  const { title, description } = await getPostData(slug);
+  return {
+    title,
+    description,
+  };
+}
 
 export default async function PostPage({ params: { slug } }: Props) {
   const post = await getPostData(slug);

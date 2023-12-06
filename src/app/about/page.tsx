@@ -1,5 +1,10 @@
 import Hero from "@/components/Hero";
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+};
 
 const TITLE_CLASS = "my-2 text-2xl font-bold text-gray-800";
 
