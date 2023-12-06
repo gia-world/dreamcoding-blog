@@ -1,12 +1,8 @@
 "use client";
 
-import React, {
-  ChangeEvent,
-  FormEvent,
-  FormEventHandler,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import MailBanner, { BannerData } from "./Banner";
+import { sendContactEmail } from "@/service/contact";
 
 type Form = {
   from: string;
@@ -14,12 +10,14 @@ type Form = {
   message: string;
 };
 
+const DEFAULT_DATA = {
+  from: "",
+  subject: "",
+  message: "",
+};
+
 export default function ContactForm() {
-  const [form, setForm] = useState<Form>({
-    from: "",
-    subject: "",
-    message: "",
-  });
+  const [form, setForm] = useState<Form>(DEFAULT_DATA);
 
   const [banner, setBanner] = useState<BannerData | null>(null);
 
@@ -30,11 +28,22 @@ export default function ContactForm() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(form);
-    setBanner({ message: "성공했어!!", state: "success" });
-    setTimeout(() => {
-      setBanner(null);
-    }, 3000);
+    sendContactEmail(form) //
+      .then(() => {
+        setBanner({
+          message: "메일을 성공적으로 보냈습니다.",
+          state: "success",
+        });
+        setForm(DEFAULT_DATA);
+      })
+      .catch(() => {
+        setBanner({ message: "메일 전송에 실패했습니다.", state: "error" });
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setBanner(null);
+        }, 3000);
+      });
   };
 
   return (
