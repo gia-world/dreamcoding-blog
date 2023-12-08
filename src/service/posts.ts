@@ -35,18 +35,21 @@ export const getAllPosts = cache(async () => {
   );
 });
 
-// ? cache() 사용 시 타입 지정은 왜 안 해도 되는지?
 // export async function getAllPosts(): Promise<Post[]> {
 // }
 
 export async function getFeaturedPosts(): Promise<Post[]> {
-  return getAllPosts() //
-    .then((posts) => posts.filter((post) => post.featured));
+  // return getAllPosts() //
+  //   .then((posts) => posts.filter((post) => post.featured));
+  const posts = await getAllPosts();
+  return posts.filter((post) => post.featured);
 }
 
 export async function getNonFeaturedPosts(): Promise<Post[]> {
-  return getAllPosts() //
-    .then((posts) => posts.filter((post) => !post.featured));
+  // return getAllPosts() //
+  //   .then((posts) => posts.filter((post) => !post.featured));
+  const posts = await getAllPosts();
+  return posts.filter((post) => !post.featured);
 }
 
 export async function getPostData(fileName: string): Promise<PostData> {
